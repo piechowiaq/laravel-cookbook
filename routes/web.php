@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Order;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,5 +20,15 @@ Route::get('/', function () {
 });
 
 Route::get('/charts', function () {
-    return view('charts');
+
+    dd(Order::query()
+        ->whereYear('created_at', date('Y'))
+        ->selectRaw(strftime('%m', (int)"created_at").' as month')
+        ->selectRaw('count(*)')
+        ->groupBy('month')
+        ->get());
+
+
+
+//    return view('charts');
 });

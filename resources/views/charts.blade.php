@@ -14,13 +14,28 @@
                 new Chart(ctx, {
                     type: 'bar',
                     data: {
-                        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                        labels: ['Jan',
+                                 'Feb',
+                                 'Mar',
+                                 'Apr',
+                                 'May',
+                                 'Jun',
+                                 'Jul',
+                                 'Aug',
+                                 'Sep',
+                                 'Oct',
+                                 'Nov',
+                                 'Dec',
+                               ],
                         datasets: [{
-                            label: '# of Votes',
-                            data: [12, 19, 3, 5, 2, 3],
+                            label: '# of Orders',
+                            data: [1,50,90,4,7,12, 19, 8, 5, 2, 3,80],
+                            borderWidth: 1},
+                                    {
+                            label: '# of Orders',
+                            data: [1,2,3,4,78,12, 19, 3, 5, 2, 3,90],
                             borderWidth: 1
-                        }]
-                    },
+                            }]},
                     options: {
                         scales: {
                             y: {
