@@ -21,14 +21,16 @@ Route::get('/', function () {
 
 Route::get('/charts', function () {
 
-    dd(Order::query()
+    $thisYearOrders = Order::query()
         ->whereYear('created_at', date('Y'))
-        ->selectRaw(strftime('%m', (int)"created_at").' as month')
-        ->selectRaw('count(*)')
-        ->groupBy('month')
-        ->get());
+        ->groupByMonth();
 
+    $lastYearOrders = Order::query()
+        ->whereYear('created_at', date('Y') - 1)
+        ->groupByMonth();
 
-
-//    return view('charts');
+    return view('charts', [
+        'thisYearOrders' => $thisYearOrders,
+        'lastYearOrders' => $lastYearOrders,
+    ]);
 });

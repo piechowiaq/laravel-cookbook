@@ -2,6 +2,10 @@
     <div class="bg-white rounded-md border my-8 px-6 py-6 mx-40">
         <div>
             <h2 class="text-2xl font-semibold">Charts</h2>
+            <div class="m-6">
+                <div>Last Year Orders: {{ array_sum($lastYearOrders) }}</div>
+                <div>This Year Orders: {{ array_sum($thisYearOrders) }}</div>
+            </div>
                 <div>
                     <canvas id="myChart"></canvas>
                 </div>
@@ -28,12 +32,12 @@
                                  'Dec',
                                ],
                         datasets: [{
-                            label: '# of Orders',
-                            data: [1,50,90,4,7,12, 19, 8, 5, 2, 3,80],
+                            label: 'Last Year Orders',
+                            data: {{Js::from($lastYearOrders)}},
                             borderWidth: 1},
                                     {
-                            label: '# of Orders',
-                            data: [1,2,3,4,78,12, 19, 3, 5, 2, 3,90],
+                            label: 'This Year Orders',
+                            data: {{ Js::from($thisYearOrders) }},
                             borderWidth: 1
                             }]},
                     options: {
