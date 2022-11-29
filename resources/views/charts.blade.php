@@ -6,9 +6,7 @@
                 <div>Last Year Orders: {{ array_sum($lastYearOrders) }}</div>
                 <div>This Year Orders: {{ array_sum($thisYearOrders) }}</div>
             </div>
-                <div>
-                    <canvas id="myChart"></canvas>
-                </div>
+                <livewire:chart-orders/>
         </div>
         @push('scripts')
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
