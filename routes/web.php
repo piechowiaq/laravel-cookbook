@@ -21,11 +21,5 @@ Route::get('/', function () {
 
 Route::get('/charts', function () {
 
-    $thisYearOrders = Order::getYearOrders(date('Y'))->groupByMonth();
-    $lastYearOrders = Order::getYearOrders(date('Y') -1)->groupByMonth();
-
-    return view('charts', [
-        'thisYearOrders' => $thisYearOrders,
-        'lastYearOrders' => $lastYearOrders,
-    ]);
+    return view('charts');
 });
