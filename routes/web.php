@@ -27,13 +27,5 @@ Route::get('/charts', function () {
 
 Route::get('/stats', function () {
 
-    $usersCount= User::where('created_at', '>=', now()->subDays(30))->count();
-    $ordersCount= Order::where('created_at', '>=', now()->subDays(30))->count();
-    $revenue = Order::where('created_at', '>=', now()->subDays(30))->sum('total');
-
-    return view('stats', [
-        'usersCount' => $usersCount,
-        'ordersCount' => $ordersCount,
-        'revenue' => $revenue,
-    ]);
+    return view('stats',);
 });
