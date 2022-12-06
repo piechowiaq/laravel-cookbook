@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Order;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 
@@ -22,4 +23,17 @@ Route::get('/', function () {
 Route::get('/charts', function () {
 
     return view('charts');
+});
+
+Route::get('/stats', function () {
+
+    $usersCount= User::where('created_at', '>=', now()->subDays(30))->count();
+    $ordersCount= Order::where('created_at', '>=', now()->subDays(30))->count();
+    $revenue = Order::where('created_at', '>=', now()->subDays(30))->sum('total');
+
+    return view('stats', [
+        'usersCount' => $usersCount,
+        'ordersCount' => $ordersCount,
+        'revenue' => $revenue,
+    ]);
 });
