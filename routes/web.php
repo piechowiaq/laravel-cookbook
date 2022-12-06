@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 Route::get('/charts', function () {
@@ -28,4 +28,9 @@ Route::get('/charts', function () {
 Route::get('/stats', function () {
 
     return view('stats',);
+});
+
+Route::get('/announcement', function () {
+
+    return view('announcement',);
 });
