@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Announcement;
 use App\Models\Order;
 use App\Models\User;
 use Carbon\Carbon;
@@ -32,5 +33,11 @@ Route::get('/stats', function () {
 
 Route::get('/announcement', function () {
 
-    return view('announcement',);
+    $announcement = Announcement::first();
+
+    abort_if(!$announcement->isActive, 404);
+
+    return view('announcement', [
+        'announcement' => $announcement,
+    ]);
 });
