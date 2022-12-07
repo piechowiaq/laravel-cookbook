@@ -4,7 +4,7 @@ use App\Models\Announcement;
 use App\Models\Order;
 use App\Models\User;
 use Carbon\Carbon;
-use http\Client\Request;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -52,7 +52,8 @@ Route::get('/announcement/edit', function () {
     ]);
 });
 
-Route::get('/announcement/update', function (Request $request) {
+Route::patch('/announcement/update', function (Request $request) {
+
     $fields = $request->validate([
         'isActive' => 'required',
         'bannerText' => 'required',
@@ -64,6 +65,8 @@ Route::get('/announcement/update', function (Request $request) {
         'buttonColor' => 'required',
         'buttonLink' => 'required|url',
     ]);
+
+
 
     $announcement = Announcement::first();
 

@@ -51,7 +51,6 @@
                         {!! $announcement->content !!}
                     </div>
                 </div>
-
                 <div class="mt-4">
                     <label for="buttonText" class="font-semibold block">Button Text</label>
                     <input type="text" name="buttonText" id="buttonText" class="border border-gray-400 rounded w-full px-2 py-2 mt-2" value="{{ $announcement->buttonText }}" required>
