@@ -64,7 +64,14 @@ Route::patch('/announcement/update', function (Request $request) {
         'buttonText' => 'required',
         'buttonColor' => 'required',
         'buttonLink' => 'required|url',
+        'imageUpload' => 'file|image|max:20000',
     ]);
+
+    if($request->imageUpload){
+        $path = $request->file('imageUpload')->store('images', 'public');
+        $fields =  array_merge($fields, ['imageUpload' => $path]);
+
+    }
 
 
 
