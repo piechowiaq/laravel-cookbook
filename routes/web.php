@@ -6,6 +6,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Intervention\Image\Facades\Image;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,12 +69,20 @@ Route::patch('/announcement/update', function (Request $request) {
     ]);
 
     if($request->imageUpload){
-        $path = $request->file('imageUpload')->store('images', 'public');
-        $fields =  array_merge($fields, ['imageUpload' => $path]);
 
+        $requestImage = $request->file('imageUpload');
+        $image =  Image::make($requestImage);
+        $image->resize(600, null, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
+
+        $path =  config('filesystems.disks.public.root').'/images/'.$requestImage->hashName();
+
+        $image->save($path);
+
+        $fields =  array_merge($fields, ['imageUpload' => $requestImage->hashName()]);
     }
-
-
 
     $announcement = Announcement::first();
 

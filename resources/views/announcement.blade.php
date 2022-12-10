@@ -6,7 +6,7 @@
         <div class="text-gray-600 px-5 py-5">
 
             @if($announcement->imageUpload)
-                <img src="{{ asset("storage/".$announcement->imageUpload) }}" alt="image" class="mx-auto"/>
+                <img src="{{ asset("storage/images/".$announcement->imageUpload) }}" alt="image" class="mx-auto"/>
             @endif
             <div class="content mt-4"> {!! $announcement->content !!}</div>
 

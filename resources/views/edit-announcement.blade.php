@@ -78,12 +78,12 @@
 
                 <div class="mt-4">
                     <label for="imageUpload" class="font-semibold block">Image Upload</label>
-                    <input type="file" name="imageUpload" class="mt-2">
+                    <input type="file" name="imageUpload" class="mt-2" accept="image/*">
                 </div>
 
                 @if($announcement->imageUpload)
                     <div class="mt-4">
-                        <img src="{{ asset("storage/".$announcement->imageUpload) }}" alt="image" class="max-w-xs">
+                        <img src="{{ asset('storage/images/'.$announcement->imageUpload) }}" alt="image" class="max-w-xs">
                     </div>
                 @endif
 
