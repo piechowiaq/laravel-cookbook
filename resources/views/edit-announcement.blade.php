@@ -1,4 +1,14 @@
 <x-app-layout>
+    @push('styles')
+        <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+        <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
+
+        <link
+            href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
+            rel="stylesheet"
+        />
+
+    @endpush
     @if (session('success_message'))
         <div class="bg-green-200 text-green-800 px-4 py-2">
             {{ session('success_message') }}
@@ -87,6 +97,17 @@
                     </div>
                 @endif
 
+                <div class="mt-4">
+                    <label for="imageUploadFilePond" class="font-semibold block">Image UploadFilePond</label>
+                    <input type="file" name="imageUploadFilePond" id="imageUploadFilePond" class="mt-2" accept="image/*">
+                </div>
+
+                @if($announcement->imageUploadFilePond)
+                    <div class="mt-4">
+                        <img src="{{ asset('storage/'.$announcement->imageUploadFilePond) }}" alt="image" class="max-w-xs">
+                    </div>
+                @endif
+
                 <div class="mt-8">
                     <button type="submit" class="bg-blue-600 rounded inline-block text-white px-4 py-4">Update Announcement</button>
                 </div>
@@ -94,11 +115,37 @@
         </div>
     </div>
     @push('scripts')
-    <!-- Include the Quill library -->
+    <!-- Imports -->
         <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+        <script src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.js"></script>
+        <script src="https://unpkg.com/filepond-plugin-image-transform/dist/filepond-plugin-image-transform.js"></script>
+        <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
+        <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+        <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
 
-        <!-- Initialize Quill editor -->
         <script>
+            FilePond.registerPlugin(FilePondPluginFileValidateType);
+            FilePond.registerPlugin(FilePondPluginImagePreview);
+            FilePond.registerPlugin(FilePondPluginImageTransform);
+            FilePond.registerPlugin(FilePondPluginImageResize);
+
+            //Initialize FilePond
+            const inputElement = document.querySelector('#imageUploadFilePond');
+
+            // Create a FilePond instance
+            const pond = FilePond.create(inputElement,{
+                imageResizeTargetWidth: 100,
+                imageResizeMode: 'contain',
+                imageResizeUpscale: false,
+                server: {
+                    url: '/upload',
+                    headers:{
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                }
+            });
+
+            //Initialize Quill editor
             var quill = new Quill('#editor', {
                 theme: 'snow',
                 placeholder: 'Enter announcement details',
