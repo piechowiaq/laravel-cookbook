@@ -83,7 +83,7 @@
 
                 @if($announcement->imageUpload)
                     <div class="mt-4">
-                        <img src="{{ asset($announcement->imageUpload) }}" alt="image" class="max-w-xs">
+                        <img src="{{ asset("storage/".$announcement->imageUpload) }}" alt="image" class="max-w-xs">
                     </div>
                 @endif
 
