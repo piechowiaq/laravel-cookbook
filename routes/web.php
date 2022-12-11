@@ -2,6 +2,7 @@
 
 use App\Models\Announcement;
 use App\Models\Order;
+use App\Models\Post;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -112,4 +113,49 @@ Route::post('/upload', function(Request$request){
     return $path;
 });
 
+Route::get('/posts', function () {
+    return view('posts.index', [
+        'posts' => Post::latest()->get(),
+    ]);
+});
 
+Route::get('/posts/create', function () {
+    return view('posts.create', [
+        'post' => new Post(),
+    ]);
+});
+
+Route::post('/posts/create', function (PostFormRequest $request) {
+    // Post::create(fields($request));
+    $request->updateOrCreate(new Post());
+
+    return redirect('/posts')->with('success_message', 'Post was created!');
+});
+
+Route::get('/posts/{post}', function (Post $post) {
+    return view('posts.show', [
+        'post' => $post,
+    ]);
+});
+
+Route::get('/posts/{post}/edit', function (Post $post) {
+    return view('posts.edit', [
+        'post' => $post,
+    ]);
+});
+
+Route::patch('/posts/{post}', function (Post $post, PostFormRequest $request) {
+    // $post->update(fields($request));
+    $request->updateOrCreate($post);
+
+    return redirect('/posts/'.$post->id)->with('success_message', 'Post was updated!');
+});
+
+function fields(Request $request)
+{
+    return [
+        'user_id' => 1,
+        'title' => $request->title,
+        'body' => $request->body,
+    ];
+}
