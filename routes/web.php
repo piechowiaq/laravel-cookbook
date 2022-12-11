@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Requests\PostFormRequest;
 use App\Models\Announcement;
 use App\Models\Order;
 use App\Models\Post;
