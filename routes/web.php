@@ -161,11 +161,12 @@ Route::get('/http-client', function(){
 
     $responseGitHub = Http::get('https://api.github.com/users/piechowiaq/repos?sort=created&per_page=10');
 
-    dump($responseGitHub->status());
-    dump($responseGitHub->ok());
-    dump($responseGitHub->json());
+    $responseWeather = Http::get('https://api.openweathermap.org/data/3.0/onecall?lat=33.44&lon=-94.04&exclude=hourly,daily&appid='.config('services.openWeatherMap.appId'));
 
-    return view('http-client');
+    dump($responseWeather->status());
+    return view('http-client', [
+        'repos' => $responseGitHub->json(),
+    ]);
 
 });
 
