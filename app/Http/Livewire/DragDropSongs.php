@@ -15,7 +15,7 @@ class DragDropSongs extends Component
             ]);
         }
 
-//        $this->dispatchBrowserEvent('order-updated');
+        $this->dispatchBrowserEvent('order-updated');
     }
 
     public function render()

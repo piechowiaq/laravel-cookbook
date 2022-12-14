@@ -7,6 +7,7 @@ use App\Models\Post;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -154,6 +155,18 @@ Route::patch('/posts/{post}', function (Post $post, PostFormRequest $request) {
 
 Route::get('/drag-drop', function () {
     return view('drag-drop');
+});
+
+Route::get('/http-client', function(){
+
+    $responseGitHub = Http::get('https://api.github.com/users/piechowiaq/repos?sort=created&per_page=10');
+
+    dump($responseGitHub->status());
+    dump($responseGitHub->ok());
+    dump($responseGitHub->json());
+
+    return view('http-client');
+
 });
 
 function fields(Request $request)
