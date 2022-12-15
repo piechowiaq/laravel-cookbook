@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
+use Illuminate\Http\Client\Pool;
 
 /*
 |--------------------------------------------------------------------------
@@ -159,16 +160,24 @@ Route::get('/drag-drop', function () {
 
 Route::get('/http-client', function(){
 
-    $responseGitHub = Http::get('https://api.github.com/users/piechowiaq/repos?sort=created&per_page=10');
+//    $responseGitHub = Http::get('https://api.github.com/users/piechowiaq/repos?sort=created&per_page=10');
+//
+//    $responseWeather = Http::get('https://api.openweathermap.org/data/2.5/weather?q=Toronto&units=metric&appid='.config('services.openWeatherMap.appId'));
+//
+//    $responseMovies = Http::withToken(config('services.tmdb.bearerToken'))->get('https://api.themoviedb.org/3/movie/popular');
+//
+//    $responseMovies = Http::movies()->get('/movie/popular');
 
-    $responseWeather = Http::get('https://api.openweathermap.org/data/2.5/weather?q=Toronto&units=metric&appid='.config('services.openWeatherMap.appId'));
-
-    $responseMovies = Http::withToken(config('services.tmdb.bearerToken'))->get('https://api.themoviedb.org/3/movie/popular');
+    $responses = Http::pool(fn (Pool $pool) => [
+        $pool->as('github')->get('https://api.github.com/users/piechowiaq/repos?sort=created&per_page=10'),
+        $pool->as('weather')->get('https://api.openweathermap.org/data/2.5/weather?q=Toronto&units=metric&appid='.config('services.openWeatherMap.appId')),
+        $pool->as('movies')->withToken(config('services.tmdb.bearerToken'))->get('https://api.themoviedb.org/3/movie/popular'),
+    ]);
 
     return view('http-client', [
-        'repos' => $responseGitHub->json(),
-        'weather' => $responseWeather->json(),
-        'movies' => $responseMovies->json(),
+        'repos' => $responses['github']->json(),
+        'weather' => $responses['weather']->json(),
+        'movies' => $responses['movies']->json(),
     ]);
 
 });
