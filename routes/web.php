@@ -161,11 +161,14 @@ Route::get('/http-client', function(){
 
     $responseGitHub = Http::get('https://api.github.com/users/piechowiaq/repos?sort=created&per_page=10');
 
-    $responseWeather = Http::get('https://api.openweathermap.org/data/3.0/onecall?lat=33.44&lon=-94.04&exclude=hourly,daily&appid='.config('services.openWeatherMap.appId'));
+    $responseWeather = Http::get('https://api.openweathermap.org/data/2.5/weather?q=Toronto&units=metric&appid='.config('services.openWeatherMap.appId'));
 
-    dump($responseWeather->status());
+    $responseMovies = Http::withToken(config('services.tmdb.bearerToken'))->get('https://api.themoviedb.org/3/movie/popular');
+
     return view('http-client', [
         'repos' => $responseGitHub->json(),
+        'weather' => $responseWeather->json(),
+        'movies' => $responseMovies->json(),
     ]);
 
 });

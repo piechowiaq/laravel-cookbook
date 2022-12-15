@@ -17,6 +17,22 @@
                     @endforelse
                 </ul>
             </div>
+            <div class="mt-4">
+                <h3 class="text-xl font-semibold">Weather form API</h3>
+                <div class="mt-4">Temperature: {{ $weather['main']['temp'] }}</div>
+                <div class="mt-4">Description: {{ $weather['weather'][0]['description'] }}</div>
+            </div>
+            <div class="mt-4">
+                <h3 class="text-xl font-semibold">Movies form API</h3>
+                <ul class="list-disc ml-4 mt-4">
+                    @forelse ($movies['results'] as $movie)
+                        <li>{{ $movie['title'] }}</li>
+                    @empty
+                        <li>No movies found</li>
+                    @endforelse
+                </ul>
+            </div>
+
         </div>
     </div>
 </x-app-layout>
